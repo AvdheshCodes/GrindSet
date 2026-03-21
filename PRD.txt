@@ -1,0 +1,158 @@
+# 📌 Product Requirements Document (PRD)
+
+## 🧠 Product Name
+
+DSA Sheet Tracker
+
+## 🎯 Objective
+
+To build a web application that helps students systematically practice Data Structures and Algorithms (DSA) by tracking progress, accessing curated problems, and using learning resources.
+
+---
+
+## 👥 Target Users
+
+* College students preparing for placements
+* Beginners learning DSA
+* Competitive programmers
+
+---
+
+## 🔑 Core Features
+
+### 1. Authentication
+
+* User signup/login
+* JWT-based authentication
+* Secure password storage
+
+---
+
+### 2. DSA Question Sheet
+
+* Curated list of questions
+* Fields:
+
+  * Title
+  * Topic (Arrays, Graphs, DP, etc.)
+  * Difficulty (Easy, Medium, Hard)
+  * LeetCode link
+  * Video links
+  * Article links
+
+---
+
+### 3. Progress Tracking
+
+* Mark question as solved/unsolved
+* Track solved count
+* Progress bar (percentage)
+* Topic-wise progress
+
+---
+
+### 4. Comments System
+
+* Users can add comments per question
+* Display all comments
+* Show username + timestamp
+
+---
+
+### 5. Admin Panel
+
+* Add new questions
+* Edit question details
+* Delete questions
+* Assign difficulty levels
+
+---
+
+## 🧱 Tech Stack
+
+### Frontend
+
+* React (Vite)
+* Tailwind CSS
+
+### Backend
+
+* Node.js
+* Express.js
+
+### Database
+
+* MongoDB (Mongoose)
+
+### Authentication
+
+* JWT + bcrypt
+
+---
+
+## 📦 Database Schema Overview
+
+### User
+
+* name
+* email
+* password
+* role (user/admin)
+* solvedQuestions (array of question IDs)
+
+### Question
+
+* title
+* topic
+* difficulty
+* leetcodeLink
+* videoLinks (array)
+* articleLinks (array)
+
+### Comment
+
+* userId
+* questionId
+* text
+* createdAt
+
+---
+
+## 🔄 User Flow
+
+1. User signs up/logs in
+2. Sees dashboard with all questions
+3. Clicks a question → opens LeetCode
+4. Marks it as solved
+5. Progress updates
+6. Can view/add comments
+
+---
+
+## 🎨 UI Pages
+
+* Login / Signup Page
+* Dashboard (Question List)
+* Question Detail (comments + resources)
+* Admin Panel
+
+---
+
+## 🚀 Future Enhancements (Optional)
+
+* Streak tracking
+* Daily goals
+* Notes per question
+* Filter by topic/difficulty
+* Leaderboard
+
+---
+
+## ✅ Success Criteria
+
+* Users can track solved questions
+* Smooth UI/UX
+* Fast API responses
+* Clean, scalable architecture
+
+---
