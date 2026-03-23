@@ -1,4 +1,4 @@
-const Question = require("../models/Question");
+const Question = require("../models/question");
 
 // @GET /api/questions - Get all questions (public)
 const getAllQuestions = async (req, res) => {
