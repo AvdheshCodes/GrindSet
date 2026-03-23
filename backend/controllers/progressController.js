@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../models/User");
 const Question = require("../models/Question");
 
 // @POST /api/progress/solve/:questionId - Mark question as solved
