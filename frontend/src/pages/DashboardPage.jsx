@@ -153,9 +153,21 @@ function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white flex flex-col">
+    <div className="min-h-screen bg-[#050505] text-white flex flex-col relative overflow-hidden">
+      {/* --- Animated Background for Main Pages --- */}
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:32px_32px] pointer-events-none z-0" />
+      <div className="absolute top-[20%] right-[10%] opacity-5 pointer-events-none z-0 animate-float-fast rotate-12">
+        <svg width="400" height="400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 22h20L12 2zm0 3.8l7.2 14.4H4.8L12 5.8z" />
+        </svg>
+      </div>
+      <div className="absolute bottom-[10%] left-[5%] opacity-[0.03] pointer-events-none z-0 animate-float-delayed -rotate-12">
+        <span className="text-9xl font-black tracking-tighter select-none">CODE</span>
+      </div>
+      {/* ---------------------------------------- */}
+
       {/* Top Nav */}
-      <nav className="sticky top-0 z-50 bg-[#111111] border-b border-white/5 px-6 py-3 flex justify-between items-center">
+      <nav className="sticky top-0 z-50 bg-[#111111]/80 backdrop-blur-md border-b border-white/5 px-6 py-3 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <img src={logo} alt="GrindSet" className="w-8 h-8 object-contain rounded-lg" />
           <span className="font-bold text-white tracking-tight">GrindSet</span>
@@ -184,9 +196,9 @@ function DashboardPage() {
         </div>
       </nav>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative z-10">
         {/* Sidebar */}
-        <aside className="hidden lg:flex flex-col w-64 bg-[#111111] border-r border-white/5 p-4 sticky top-14 h-[calc(100vh-56px)] overflow-y-auto">
+        <aside className="hidden lg:flex flex-col w-64 bg-[#111111]/50 backdrop-blur-sm border-r border-white/5 p-4 sticky top-14 h-[calc(100vh-56px)] overflow-y-auto">
           {/* Progress Card */}
           <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-4 mb-6">
             <p className="text-xs text-gray-400 mb-1">Overall Progress</p>
@@ -206,8 +218,8 @@ function DashboardPage() {
             <button
               onClick={() => setFilter({ ...filter, topic: "All" })}
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex justify-between items-center ${filter.topic === "All"
-                  ? "bg-green-500/10 text-green-400"
-                  : "text-gray-400 hover:bg-white/5 hover:text-white"
+                ? "bg-green-500/10 text-green-400"
+                : "text-gray-400 hover:bg-white/5 hover:text-white"
                 }`}
             >
               <span>All Topics</span>
@@ -223,8 +235,8 @@ function DashboardPage() {
                   key={topic}
                   onClick={() => setFilter({ ...filter, topic })}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex justify-between items-center ${filter.topic === topic
-                      ? "bg-green-500/10 text-green-400"
-                      : "text-gray-400 hover:bg-white/5 hover:text-white"
+                    ? "bg-green-500/10 text-green-400"
+                    : "text-gray-400 hover:bg-white/5 hover:text-white"
                     }`}
                 >
                   <span className="truncate">{topic}</span>
@@ -236,7 +248,7 @@ function DashboardPage() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-6 overflow-y-auto z-10">
           {/* Header + Tabs */}
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-white mb-3">Dashboard</h1>
@@ -244,8 +256,8 @@ function DashboardPage() {
               <button
                 onClick={() => setActiveTab("global")}
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition ${activeTab === "global"
-                    ? "bg-green-500 text-black"
-                    : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
+                  ? "bg-green-500 text-black"
+                  : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
                   }`}
               >
                 📋 DSA Sheet
@@ -253,8 +265,8 @@ function DashboardPage() {
               <button
                 onClick={() => setActiveTab("mine")}
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition flex items-center gap-2 ${activeTab === "mine"
-                    ? "bg-green-500 text-black"
-                    : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
+                  ? "bg-green-500 text-black"
+                  : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
                   }`}
               >
                 ⭐ My Questions

@@ -68,8 +68,20 @@ function QuestionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white">
-      <nav className="sticky top-0 z-50 bg-[#111111] border-b border-white/5 px-6 py-3 flex justify-between items-center">
+    <div className="min-h-screen bg-[#050505] text-white flex flex-col relative overflow-hidden">
+      {/* --- Animated Background --- */}
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:32px_32px] pointer-events-none z-0" />
+      <div className="absolute top-[20%] right-[10%] opacity-5 pointer-events-none z-0 animate-float-fast rotate-12">
+        <svg width="400" height="400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 22h20L12 2zm0 3.8l7.2 14.4H4.8L12 5.8z" />
+        </svg>
+      </div>
+      <div className="absolute bottom-[10%] left-[5%] opacity-[0.03] pointer-events-none z-0 animate-float-delayed -rotate-12">
+        <span className="text-9xl font-black tracking-tighter select-none">CODE</span>
+      </div>
+      {/* --------------------------- */}
+
+      <nav className="sticky top-0 z-50 bg-[#111111]/80 backdrop-blur-md border-b border-white/5 px-6 py-3 flex justify-between items-center z-10">
         <div className="flex items-center gap-3">
           <img src={logo} alt="GrindSet" className="w-8 h-8 object-contain rounded-lg" />
           <span className="font-bold text-white tracking-tight">GrindSet</span>
@@ -82,117 +94,119 @@ function QuestionPage() {
         </button>
       </nav>
 
-      <div className="max-w-3xl mx-auto px-6 py-8">
-        {question && (
-          <div className="bg-[#111111] rounded-2xl p-6 mb-8 border border-white/5">
-            <h2 className="text-2xl font-bold mb-2">{question.title}</h2>
-            <div className="flex gap-3 mb-4">
-              <span className="bg-gray-800 text-gray-300 text-sm px-3 py-1 rounded-full">
-                {question.topic}
-              </span>
-              <span
-                className={`text-sm px-3 py-1 rounded-full ${question.difficulty === "Easy"
+      <main className="flex-1 p-6 relative z-10 w-full overflow-y-auto">
+        <div className="max-w-3xl mx-auto py-8">
+          {question && (
+            <div className="bg-[#111111] rounded-2xl p-6 mb-8 border border-white/5">
+              <h2 className="text-2xl font-bold mb-2">{question.title}</h2>
+              <div className="flex gap-3 mb-4">
+                <span className="bg-gray-800 text-gray-300 text-sm px-3 py-1 rounded-full">
+                  {question.topic}
+                </span>
+                <span
+                  className={`text-sm px-3 py-1 rounded-full ${question.difficulty === "Easy"
                     ? "bg-green-500/20 text-green-400"
                     : question.difficulty === "Medium"
                       ? "bg-yellow-500/20 text-yellow-400"
                       : "bg-red-500/20 text-red-400"
-                  }`}
-              >
-                {question.difficulty}
-              </span>
-            </div>
-            <div className="flex gap-3 flex-wrap">
-              <a
-                href={question.leetcodeLink}
-                target="_blank"
-                rel="noreferrer"
-                className="bg-orange-600/20 text-orange-400 px-4 py-2 rounded-lg text-sm hover:bg-orange-600/40 transition"
-              >
-                Open on LeetCode
-              </a>
-              {question.videoLinks?.[0] && (
+                    }`}
+                >
+                  {question.difficulty}
+                </span>
+              </div>
+              <div className="flex gap-3 flex-wrap">
                 <a
-                  href={question.videoLinks[0]}
+                  href={question.leetcodeLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="bg-red-600/20 text-red-400 px-4 py-2 rounded-lg text-sm hover:bg-red-600/40 transition"
+                  className="bg-orange-600/20 text-orange-400 px-4 py-2 rounded-lg text-sm hover:bg-orange-600/40 transition"
                 >
-                  Watch Video
+                  Open on LeetCode
                 </a>
-              )}
-              {question.articleLinks?.[0] && (
-                <a
-                  href={question.articleLinks[0]}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="bg-green-600/20 text-green-400 px-4 py-2 rounded-lg text-sm hover:bg-green-600/40 transition"
-                >
-                  Read Article
-                </a>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Comments */}
-        <div className="bg-[#111111] rounded-2xl p-6 border border-white/5">
-          <h3 className="text-lg font-semibold mb-4">
-            Comments ({comments.length})
-          </h3>
-
-          {/* Add Comment */}
-          <form onSubmit={handleAddComment} className="flex gap-3 mb-6">
-            <input
-              type="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Add a comment..."
-              className="flex-1 bg-white/5 border border-white/10 text-white px-4 py-2.5 rounded-xl outline-none focus:border-green-500/50 transition text-sm placeholder-gray-600"
-            />
-            <button
-              type="submit"
-              className="bg-green-500 hover:bg-green-400 text-black font-bold px-4 py-2.5 rounded-xl text-sm transition"
-            >
-              Post
-            </button>
-          </form>
-
-          {/* Comment List */}
-          <div className="space-y-4">
-            {comments.map((c) => (
-              <div
-                key={c._id}
-                className="bg-white/5 border border-white/5 rounded-xl p-4 flex justify-between items-start"
-              >
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-green-400 text-sm font-medium">
-                      {c.userId?.name}
-                    </span>
-                    <span className="text-gray-500 text-xs">
-                      {new Date(c.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <p className="text-gray-300 text-sm">{c.text}</p>
-                </div>
-                {user?.id === c.userId?._id && (
-                  <button
-                    onClick={() => handleDeleteComment(c._id)}
-                    className="text-red-400 text-xs hover:text-red-300 transition ml-4"
+                {question.videoLinks?.[0] && (
+                  <a
+                    href={question.videoLinks[0]}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="bg-red-600/20 text-red-400 px-4 py-2 rounded-lg text-sm hover:bg-red-600/40 transition"
                   >
-                    Delete
-                  </button>
+                    Watch Video
+                  </a>
+                )}
+                {question.articleLinks?.[0] && (
+                  <a
+                    href={question.articleLinks[0]}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="bg-green-600/20 text-green-400 px-4 py-2 rounded-lg text-sm hover:bg-green-600/40 transition"
+                  >
+                    Read Article
+                  </a>
                 )}
               </div>
-            ))}
-            {comments.length === 0 && (
-              <p className="text-gray-500 text-center py-4">
-                No comments yet. Be the first!
-              </p>
-            )}
+            </div>
+          )}
+
+          {/* Comments */}
+          <div className="bg-[#111111] rounded-2xl p-6 border border-white/5">
+            <h3 className="text-lg font-semibold mb-4">
+              Comments ({comments.length})
+            </h3>
+
+            {/* Add Comment */}
+            <form onSubmit={handleAddComment} className="flex gap-3 mb-6">
+              <input
+                type="text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Add a comment..."
+                className="flex-1 bg-white/5 border border-white/10 text-white px-4 py-2.5 rounded-xl outline-none focus:border-green-500/50 transition text-sm placeholder-gray-600"
+              />
+              <button
+                type="submit"
+                className="bg-green-500 hover:bg-green-400 text-black font-bold px-4 py-2.5 rounded-xl text-sm transition"
+              >
+                Post
+              </button>
+            </form>
+
+            {/* Comment List */}
+            <div className="space-y-4">
+              {comments.map((c) => (
+                <div
+                  key={c._id}
+                  className="bg-white/5 border border-white/5 rounded-xl p-4 flex justify-between items-start"
+                >
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-green-400 text-sm font-medium">
+                        {c.userId?.name}
+                      </span>
+                      <span className="text-gray-500 text-xs">
+                        {new Date(c.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className="text-gray-300 text-sm">{c.text}</p>
+                  </div>
+                  {user?.id === c.userId?._id && (
+                    <button
+                      onClick={() => handleDeleteComment(c._id)}
+                      className="text-red-400 text-xs hover:text-red-300 transition ml-4"
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              ))}
+              {comments.length === 0 && (
+                <p className="text-gray-500 text-center py-4">
+                  No comments yet. Be the first!
+                </p>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
