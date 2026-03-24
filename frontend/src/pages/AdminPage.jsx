@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getQuestions, addQuestion, updateQuestion, deleteQuestion } from "../api/questions";
+import logo from "../assets/logo.jpeg";
 
 const emptyForm = {
   title: "",
@@ -106,10 +107,11 @@ function AdminPage() {
       {/* Nav */}
       <nav className="sticky top-0 z-50 bg-[#111111] border-b border-white/5 px-6 py-3 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-            <span className="text-black font-black text-sm">D</span>
-          </div>
-          <span className="font-bold text-white tracking-tight">Admin Panel</span>
+          <img src={logo} alt="GrindSet" className="w-8 h-8 object-contain rounded-lg" />
+          <span className="font-bold text-white tracking-tight">GrindSet</span>
+          <span className="text-xs bg-green-500/10 border border-green-500/30 text-green-400 px-2 py-0.5 rounded-full">
+            Admin Panel
+          </span>
           <span className="text-xs bg-green-500/10 border border-green-500/30 text-green-400 px-2 py-0.5 rounded-full">
             {questions.length} questions
           </span>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { login, signup } from "../api/auth";
+import logo from "../assets/logo.jpeg";
 
 function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -42,13 +43,11 @@ function LoginPage() {
       <div className="w-full max-w-sm relative z-10">
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-       <div className="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-green-500/20">
-  <span className="text-black font-black text-xl">D</span>
-</div>
-<h1 className="text-2xl font-bold text-white tracking-tight">DSA Tracker</h1>
-<p className="text-gray-500 text-sm mt-1">
-  {isLogin ? "Welcome back! Keep grinding 💪" : "Start your DSA journey today"}
-</p>
+          <img src={logo} alt="GrindSet" className="w-16 h-16 object-contain rounded-2xl mb-4 shadow-lg shadow-green-500/20" />
+          <h1 className="text-2xl font-bold text-white tracking-tight">GrindSet</h1>
+          <p className="text-gray-500 text-sm mt-1">
+            {isLogin ? "Welcome back! Keep grinding 💪" : "Start your DSA journey today"}
+          </p>
         </div>
 
         {/* Card */}

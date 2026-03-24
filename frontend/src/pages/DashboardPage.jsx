@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { getQuestions } from "../api/questions";
 import { getProgress, markSolved } from "../api/progress";
+import logo from "../assets/logo.jpeg";
 
 function DashboardPage() {
   const { user, logoutUser } = useAuth();
@@ -99,10 +100,10 @@ function DashboardPage() {
     <div className="min-h-screen bg-[#0d0d0d] text-white flex flex-col">
       {/* Top Nav */}
       <nav className="sticky top-0 z-50 bg-[#111111] border-b border-white/5 px-6 py-3 flex justify-between items-center">
-      <div className="flex items-center gap-3">
-  <img src="/src/assets/logo.jpeg" alt="GrindSet" className="w-8 h-8 object-contain rounded-lg" />
-  <span className="font-bold text-white tracking-tight">GrindSet</span>
-</div>
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="GrindSet" className="w-8 h-8 object-contain rounded-lg" />
+          <span className="font-bold text-white tracking-tight">GrindSet</span>
+        </div>
 
         <div className="flex items-center gap-3">
           <div className="hidden md:flex items-center gap-2 bg-white/5 rounded-full px-4 py-1.5">
@@ -148,11 +149,10 @@ function DashboardPage() {
           <div className="space-y-1">
             <button
               onClick={() => setFilter({ ...filter, topic: "All" })}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex justify-between items-center ${
-                filter.topic === "All"
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex justify-between items-center ${filter.topic === "All"
                   ? "bg-green-500/10 text-green-400"
                   : "text-gray-400 hover:bg-white/5 hover:text-white"
-              }`}
+                }`}
             >
               <span>All Topics</span>
               <span className="text-xs opacity-60">{questions.length}</span>
@@ -166,11 +166,10 @@ function DashboardPage() {
                 <button
                   key={topic}
                   onClick={() => setFilter({ ...filter, topic })}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex justify-between items-center ${
-                    filter.topic === topic
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex justify-between items-center ${filter.topic === topic
                       ? "bg-green-500/10 text-green-400"
                       : "text-gray-400 hover:bg-white/5 hover:text-white"
-                  }`}
+                    }`}
                 >
                   <span className="truncate">{topic}</span>
                   <span className="text-xs opacity-60 shrink-0 ml-1">{solved}/{count}</span>
@@ -283,11 +282,10 @@ function DashboardPage() {
                                 <td className="px-5 py-3.5">
                                   <button
                                     onClick={() => handleMarkSolved(q._id)}
-                                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition ${
-                                      solved
+                                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition ${solved
                                         ? "bg-green-500 border-green-500"
                                         : "border-gray-600 hover:border-green-500"
-                                    }`}
+                                      }`}
                                   >
                                     {solved && (
                                       <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
