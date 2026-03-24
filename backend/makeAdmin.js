@@ -6,7 +6,7 @@ dotenv.config();
 
 mongoose.connect(process.env.MONGO_URI).then(async () => {
   await User.updateOne(
-    { email: "avdhesh@test.com" },
+    { email: "avdhesh.ghansela@gmail.com" },
     { $set: { role: "admin" } }
   );
   console.log("User updated to admin ✅");

