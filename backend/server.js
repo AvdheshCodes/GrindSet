@@ -16,11 +16,13 @@ const authRoutes = require("./routes/authRoutes");
 const questionRoutes = require("./routes/questionRoutes");
 const progressRoutes = require("./routes/progressRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const userQuestionRoutes = require("./routes/userQuestionRoutes");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/my-questions", userQuestionRoutes);
 
 // Test route
 app.get("/", (req, res) => {
