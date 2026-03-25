@@ -5,6 +5,7 @@ import { getQuestions, addQuestion, updateQuestion, deleteQuestion } from "../ap
 import logo from "../assets/logo.jpeg";
 
 const emptyForm = {
+  questionNumber: "",
   title: "",
   topic: "",
   difficulty: "Easy",
@@ -70,6 +71,7 @@ function AdminPage() {
   const handleEdit = (q) => {
     setEditingId(q._id);
     setForm({
+      questionNumber: q.questionNumber || "",
       title: q.title,
       topic: q.topic,
       difficulty: q.difficulty,
@@ -153,6 +155,7 @@ function AdminPage() {
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
+                { name: "questionNumber", placeholder: "e.g. 1", label: "Question Number", type: "number" },
                 { name: "title", placeholder: "Question Title", label: "Title" },
                 { name: "topic", placeholder: "e.g. Arrays, DP, Graphs", label: "Topic" },
                 { name: "leetcodeLink", placeholder: "https://leetcode.com/problems/...", label: "LeetCode / GFG Link" },
@@ -162,11 +165,12 @@ function AdminPage() {
                 <div key={field.name} className={field.name === "title" ? "md:col-span-2" : ""}>
                   <label className="text-xs text-gray-500 mb-1.5 block">{field.label}</label>
                   <input
+                    type={field.type || "text"}
                     name={field.name}
                     placeholder={field.placeholder}
                     value={form[field.name]}
                     onChange={handleChange}
-                    required={["title", "topic", "leetcodeLink"].includes(field.name)}
+                    required={["questionNumber", "title", "topic", "leetcodeLink"].includes(field.name)}
                     className="w-full bg-white/5 border border-white/10 text-white px-4 py-3 rounded-xl outline-none focus:border-green-500/50 transition text-sm placeholder-gray-700"
                   />
                 </div>

@@ -13,10 +13,11 @@ const getAllQuestions = async (req, res) => {
 // @POST /api/questions - Add question (admin only)
 const addQuestion = async (req, res) => {
   try {
-    const { title, topic, difficulty, leetcodeLink, videoLinks, articleLinks } =
+    const { questionNumber, title, topic, difficulty, leetcodeLink, videoLinks, articleLinks } =
       req.body;
 
     const question = await Question.create({
+      questionNumber,
       title,
       topic,
       difficulty,
