@@ -46,7 +46,7 @@ function LoginPage() {
         {/* Left Column: Marketing & Features */}
         <div className="flex flex-col justify-center max-w-xl mx-auto lg:mx-0 w-full pt-10 lg:pt-0">
           <div className="flex items-center gap-3 mb-8">
-            <img src={logo} alt="GrindSet" className="w-16 h-16 object-cover object-left rounded-xl shadow-lg shadow-green-500/20 bg-black/50" />
+            <img src={logo} alt="GrindSet" className="w-16 h-16 object-contain rounded-xl shadow-lg shadow-green-500/20 bg-black/50" />
             <span className="text-2xl font-bold tracking-tight">GrindSet</span>
           </div>
           

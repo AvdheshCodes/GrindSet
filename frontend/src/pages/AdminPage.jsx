@@ -121,7 +121,7 @@ function AdminPage() {
       {/* Nav */}
       <nav className="sticky top-0 z-50 bg-[#111111]/80 backdrop-blur-md border-b border-white/5 px-6 py-3 flex justify-between items-center z-10">
         <div className="flex items-center gap-3">
-          <img src={logo} alt="GrindSet" className="w-10 h-10 object-cover object-left rounded-lg" />
+          <img src={logo} alt="GrindSet" className="w-10 h-10 object-contain rounded-lg" />
           <span className="font-bold text-white tracking-tight">GrindSet</span>
           <span className="text-xs bg-green-500/10 border border-green-500/30 text-green-400 px-2 py-0.5 rounded-full">
             Admin Panel
