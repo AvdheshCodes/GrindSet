@@ -20,6 +20,7 @@ function DashboardPage() {
 
   // My Questions state
   const [activeTab, setActiveTab] = useState("global");
+  const [myFilter, setMyFilter] = useState({ topic: "All" });
   const [myQuestions, setMyQuestions] = useState([]);
   const [myQLoading, setMyQLoading] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -459,20 +460,91 @@ function DashboardPage() {
           )}
 
           {/* ── My Questions Tab ── */}
-          {activeTab === "mine" && (
-            <div>
-              {/* Header row */}
-              <div className="flex items-center justify-between mb-5">
-                <p className="text-gray-500 text-sm">
-                  {myQuestions.filter((q) => q.solved).length}/{myQuestions.length} solved
-                </p>
-                <button
-                  onClick={() => { setShowAddForm(!showAddForm); setMyFormError(""); }}
-                  className="bg-green-500 hover:bg-green-400 text-black font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-green-500/20"
-                >
-                  {showAddForm ? "✕ Cancel" : "+ Add Question"}
-                </button>
-              </div>
+          {activeTab === "mine" && (() => {
+            const mySolvedCount = myQuestions.filter((q) => q.solved).length;
+            const myTotalCount = myQuestions.length;
+            const myPercentage = myTotalCount > 0 ? Math.round((mySolvedCount / myTotalCount) * 100) : 0;
+
+            const myGrouped = {};
+            myQuestions.forEach((q) => {
+              if (!myGrouped[q.topic]) myGrouped[q.topic] = { total: 0, solved: 0 };
+              myGrouped[q.topic].total++;
+              if (q.solved) myGrouped[q.topic].solved++;
+            });
+
+            const myFilteredQuestions = myQuestions.filter((q) => {
+              return myFilter.topic === "All" || q.topic === myFilter.topic;
+            });
+
+            return (
+              <div className="flex flex-col gap-6">
+                {/* Horizontal Progress Tracking */}
+                {myQuestions.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-bold text-white mb-4">Your Progress</h2>
+                    <style>{`
+                      .hide-scrollbar::-webkit-scrollbar { display: none; }
+                      .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+                    `}</style>
+                    <div className="flex gap-4 overflow-x-auto pb-2 hide-scrollbar">
+                      {/* Overall Progress */}
+                      <button 
+                        onClick={() => setMyFilter({ topic: "All" })}
+                        className={`min-w-[220px] max-w-[220px] text-left border rounded-2xl p-4 flex-shrink-0 transition-all ${myFilter.topic === "All" ? "bg-green-500/10 border-green-500/50" : "bg-green-500/5 border-green-500/20 hover:bg-white/5"}`}
+                      >
+                        <p className="text-xs text-gray-400 mb-1">Overall Progress</p>
+                        <div className="flex items-end gap-3 mb-2">
+                          <p className="text-2xl font-bold text-white">{myPercentage}%</p>
+                          <p className="text-xs text-gray-500 mb-1.5">{mySolvedCount} of {myTotalCount} solved</p>
+                        </div>
+                        <div className="w-full bg-white/10 rounded-full h-1.5">
+                          <div
+                            className="bg-green-500 h-1.5 rounded-full transition-all duration-700"
+                            style={{ width: `${myPercentage}%` }}
+                          />
+                        </div>
+                      </button>
+
+                      {/* Topic Cards */}
+                      {Object.entries(myGrouped).map(([topic, stats]) => {
+                        const topicPercentage = stats.total > 0 ? Math.round((stats.solved / stats.total) * 100) : 0;
+                        const isSelected = myFilter.topic === topic;
+                        return (
+                          <button 
+                            key={topic} 
+                            onClick={() => setMyFilter({ topic })}
+                            className={`min-w-[180px] max-w-[180px] text-left border rounded-2xl p-4 flex-shrink-0 flex flex-col justify-between transition-all ${isSelected ? "bg-white/10 border-green-500/50" : "bg-[#111111] border-white/5 hover:bg-white/5"}`}
+                          >
+                            <div>
+                              <p className="text-sm font-semibold text-white truncate mb-1" title={topic}>{topic}</p>
+                              <p className="text-xs text-gray-500">{stats.solved}/{stats.total} solved</p>
+                            </div>
+                            <div className="w-full bg-white/10 rounded-full h-1.5 mt-3">
+                              <div
+                                className="bg-green-400 h-1.5 rounded-full transition-all duration-700"
+                                style={{ width: `${topicPercentage}%` }}
+                              />
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Header row */}
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-gray-500 text-sm">
+                    {myFilter.topic !== "All" ? `${myFilter.topic} - ` : ""}
+                    {myFilteredQuestions.filter((q) => q.solved).length}/{myFilteredQuestions.length} solved
+                  </p>
+                  <button
+                    onClick={() => { setShowAddForm(!showAddForm); setMyFormError(""); }}
+                    className="bg-green-500 hover:bg-green-400 text-black font-bold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-green-500/20"
+                  >
+                    {showAddForm ? "✕ Cancel" : "+ Add Question"}
+                  </button>
+                </div>
 
               {/* Add Form */}
               {showAddForm && (
@@ -555,6 +627,10 @@ function DashboardPage() {
                   <p className="text-sm font-medium text-gray-400 mb-1">No personal questions yet</p>
                   <p className="text-xs">Add questions you want to track separately from the main sheet</p>
                 </div>
+              ) : myFilteredQuestions.length === 0 ? (
+                <div className="text-center py-20 text-gray-600 bg-[#111111] border border-white/5 rounded-2xl">
+                  <p className="text-sm font-medium text-gray-400 mb-1">No questions found for this topic</p>
+                </div>
               ) : (
                 <div className="bg-[#111111] border border-white/5 rounded-2xl overflow-hidden">
                   <table className="w-full">
@@ -568,7 +644,7 @@ function DashboardPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {myQuestions.map((q) => (
+                      {myFilteredQuestions.map((q) => (
                         <tr
                           key={q._id}
                           className={`border-b border-white/5 last:border-0 hover:bg-white/3 transition ${q.solved ? "opacity-50" : ""}`}
@@ -627,8 +703,9 @@ function DashboardPage() {
                   </table>
                 </div>
               )}
-            </div>
-          )}
+              </div>
+            );
+          })()}
         </main>
       </div>
     </div>
