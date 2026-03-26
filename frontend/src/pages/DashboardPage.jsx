@@ -62,11 +62,31 @@ function DashboardPage() {
   };
 
   const handleMarkSolved = async (questionId) => {
+    // Optimistic Update
+    setProgress((prev) => {
+      if (!prev) return prev;
+      const isSolved = prev.solvedQuestions?.includes(questionId);
+      let newSolved = [...(prev.solvedQuestions || [])];
+      
+      if (isSolved) {
+        newSolved = newSolved.filter((id) => id !== questionId);
+      } else {
+        newSolved.push(questionId);
+      }
+      
+      const newCount = newSolved.length;
+      const newPercentage = prev.totalQuestions > 0 ? Math.round((newCount / prev.totalQuestions) * 100) : 0;
+      
+      return { ...prev, solvedQuestions: newSolved, solvedCount: newCount, percentage: newPercentage };
+    });
+
     try {
       await markSolved(questionId);
-      fetchData();
     } catch (err) {
       console.error(err);
+      // Revert if error
+      const pRes = await getProgress();
+      setProgress(pRes.data);
     }
   };
 
@@ -96,11 +116,19 @@ function DashboardPage() {
   };
 
   const handleToggleMyQuestion = async (id) => {
+    // Optimistic Update
+    setMyQuestions((prev) => 
+      prev.map((q) => (q._id === id ? { ...q, solved: !q.solved } : q))
+    );
+
     try {
       await toggleMyQuestion(id);
-      fetchMyQuestions();
     } catch (err) {
       console.error(err);
+      // Revert if error
+      setMyQuestions((prev) => 
+        prev.map((q) => (q._id === id ? { ...q, solved: !q.solved } : q))
+      );
     }
   };
 
